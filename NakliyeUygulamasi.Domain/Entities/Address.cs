@@ -10,11 +10,11 @@ namespace NakliyeUygulamasi.Domain.Entities
 {
     public class Address : BaseEntity
     {
-        public string ProvinceId { get; set; }
+        public Guid ProvinceId { get; set; }
         public Province Province { get; set; }
-        public string DistrictId { get; set; }
+        public Guid DistrictId { get; set; }
         public District District { get; set; }
-        public string NeighbourhoodId { get; set; }
+        public Guid NeighbourhoodId { get; set; }
         public Neighbourhood Neighbourhood { get; set; }
         public string StreetAddress { get; set; }
         public AddressType AddressType { get; set; }

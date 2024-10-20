@@ -10,7 +10,7 @@ namespace NakliyeUygulamasi.Domain.Entities
     public class Neighbourhood : BaseEntity
     {
         public string NeighbourhoodName { get; set; }
-        public string DistrictId { get; set; }
+        public Guid DistrictId { get; set; }
         public District District { get; set; }
     }
 }

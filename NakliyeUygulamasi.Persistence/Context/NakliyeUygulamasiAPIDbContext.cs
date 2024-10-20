@@ -48,6 +48,47 @@ namespace NakliyeUygulamasi.Persistence.Context
                 .WithOne(o => o.Transporter)
                 .HasForeignKey(o => o.TransporterId);
 
+            builder.Entity<District>()
+                .HasMany(d => d.Neighbourhoods)
+                .WithOne(n => n.District)
+                .HasForeignKey(n => n.DistrictId);
+
+            builder.Entity<Province>()
+                .HasMany(p => p.Districts)
+                .WithOne(d => d.Province)
+                .HasForeignKey(d => d.ProvinceId);
+
+            builder.Entity<Address>()
+                .HasOne(a => a.Province)
+                .WithMany()
+                .HasForeignKey(a => a.ProvinceId);
+
+            builder.Entity<Address>()
+                .HasOne(a => a.District)
+                .WithMany()
+                .HasForeignKey(a => a.DistrictId);
+
+            builder.Entity<Address>()
+                .HasOne(a => a.Neighbourhood)
+                .WithMany()
+                .HasForeignKey(a => a.NeighbourhoodId);
+
+            builder.Entity<Order>()
+                .HasMany(or => or.Offers)
+                .WithOne(of => of.Order)
+                .HasForeignKey(of => of.OrderId);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.DeliveryAddress)
+                .WithMany()
+                .HasForeignKey(o => o.DeliveryAddressId);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.PickupAddress)
+                .WithMany()
+                .HasForeignKey(o => o.PickupAddressId);
+
+            base.OnModelCreating(builder);
               
         }
     }
