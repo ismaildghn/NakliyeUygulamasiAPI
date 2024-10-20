@@ -1,12 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using NakliyeUygulamasi.Persistence.Context;
+using NakliyeUygulamasi.Persistence;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddPersistenceServices();
+
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<NakliyeUygulamasiAPIDbContext>(options => 
-options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
+
 
 
 
