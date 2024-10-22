@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NakliyeUygulamasi.Persistence.Migrations
 {
     [DbContext(typeof(NakliyeUygulamasiAPIDbContext))]
-    [Migration("20240910142311_mig_3")]
-    partial class mig_3
+    [Migration("20241022113529_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,6 +131,45 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Address", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AddressType")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("NeighbourhoodId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StreetAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("NeighbourhoodId");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -157,9 +196,32 @@ namespace NakliyeUygulamasi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.District", b =>
+                {
+                    b.Property<int>("DistrictId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DistrictId"));
+
+                    b.Property<string>("DistrictName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("DistrictId");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Identity.AppRole", b =>
@@ -240,9 +302,8 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("UserType")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -254,6 +315,117 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Neighbourhood", b =>
+                {
+                    b.Property<int>("NeighbourhoodId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NeighbourhoodId"));
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("NeighbourhoodName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("NeighbourhoodId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.ToTable("Neighbourhoods");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Offer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TransporterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("TransporterId");
+
+                    b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DeliveryAddressId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PickupAddressId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ShippingDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("DeliveryAddressId");
+
+                    b.HasIndex("PickupAddressId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Province", b =>
+                {
+                    b.Property<int>("ProvinceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProvinceId"));
+
+                    b.Property<string>("ProvinceName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ProvinceId");
+
+                    b.ToTable("Provinces");
                 });
 
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Transporter", b =>
@@ -282,7 +454,8 @@ namespace NakliyeUygulamasi.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
 
                     b.ToTable("Transporters");
                 });
@@ -338,26 +511,155 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Address", b =>
+                {
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.District", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.Neighbourhood", "Neighbourhood")
+                        .WithMany()
+                        .HasForeignKey("NeighbourhoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.Province", "Province")
+                        .WithMany()
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("District");
+
+                    b.Navigation("Neighbourhood");
+
+                    b.Navigation("Province");
+                });
+
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Customer", b =>
                 {
                     b.HasOne("NakliyeUygulamasi.Domain.Entities.Identity.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
+                        .WithOne("Customer")
+                        .HasForeignKey("NakliyeUygulamasi.Domain.Entities.Customer", "AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.District", b =>
+                {
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.Province", "Province")
+                        .WithMany("Districts")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Province");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Neighbourhood", b =>
+                {
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.District", "District")
+                        .WithMany("Neighbourhoods")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("District");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Offer", b =>
+                {
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.Order", "Order")
+                        .WithMany("Offers")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.Transporter", "Transporter")
+                        .WithMany("Offers")
+                        .HasForeignKey("TransporterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Transporter");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.Address", "DeliveryAddress")
+                        .WithMany()
+                        .HasForeignKey("DeliveryAddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NakliyeUygulamasi.Domain.Entities.Address", "PickupAddress")
+                        .WithMany()
+                        .HasForeignKey("PickupAddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("DeliveryAddress");
+
+                    b.Navigation("PickupAddress");
+                });
+
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Transporter", b =>
                 {
                     b.HasOne("NakliyeUygulamasi.Domain.Entities.Identity.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
+                        .WithOne("Transporter")
+                        .HasForeignKey("NakliyeUygulamasi.Domain.Entities.Transporter", "AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.District", b =>
+                {
+                    b.Navigation("Neighbourhoods");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Identity.AppUser", b =>
+                {
+                    b.Navigation("Customer")
+                        .IsRequired();
+
+                    b.Navigation("Transporter")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("Offers");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Province", b =>
+                {
+                    b.Navigation("Districts");
+                });
+
+            modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Transporter", b =>
+                {
+                    b.Navigation("Offers");
                 });
 #pragma warning restore 612, 618
         }

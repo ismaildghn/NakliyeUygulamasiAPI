@@ -140,14 +140,14 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("DistrictId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("NeighbourhoodId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("NeighbourhoodId")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("ProvinceId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("StreetAddress")
                         .IsRequired()
@@ -201,24 +201,20 @@ namespace NakliyeUygulamasi.Persistence.Migrations
 
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.District", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("DistrictId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DistrictId"));
 
                     b.Property<string>("DistrictName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ProvinceId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
+                    b.HasKey("DistrictId");
 
                     b.HasIndex("ProvinceId");
 
@@ -320,24 +316,20 @@ namespace NakliyeUygulamasi.Persistence.Migrations
 
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Neighbourhood", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("NeighbourhoodId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NeighbourhoodId"));
 
-                    b.Property<Guid>("DistrictId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("NeighbourhoodName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
+                    b.HasKey("NeighbourhoodId");
 
                     b.HasIndex("DistrictId");
 
@@ -399,6 +391,9 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                     b.Property<Guid>("PickupAddressId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("ShippingDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -415,21 +410,17 @@ namespace NakliyeUygulamasi.Persistence.Migrations
 
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Province", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("ProvinceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProvinceId"));
 
                     b.Property<string>("ProvinceName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
+                    b.HasKey("ProvinceId");
 
                     b.ToTable("Provinces");
                 });

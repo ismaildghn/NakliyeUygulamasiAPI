@@ -17,5 +17,6 @@ namespace NakliyeUygulamasi.Domain.Entities
         public Address PickupAddress{ get; set; }
         public string Description { get; set; }
         public ICollection<Offer> Offers { get; set; }
+        public DateTime ShippingDate { get; set; }
     }
 }
