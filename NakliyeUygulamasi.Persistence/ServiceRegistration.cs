@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NakliyeUygulamasi.Application.Abstractions.Services;
 using NakliyeUygulamasi.Application.Repositories;
 using NakliyeUygulamasi.Application.Repositories.Address;
 using NakliyeUygulamasi.Application.Services;
+using NakliyeUygulamasi.Domain.Entities.Identity;
 using NakliyeUygulamasi.Infrastructure.Services.TurkeyLocationService;
 using NakliyeUygulamasi.Persistence.Context;
 using NakliyeUygulamasi.Persistence.Repositories;
@@ -21,6 +23,15 @@ namespace NakliyeUygulamasi.Persistence
         {
             services.AddDbContext<NakliyeUygulamasiAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
 
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<NakliyeUygulamasiAPIDbContext>();
+
             services.AddScoped<IAddressReadRepository, AddressReadRepository>();
             services.AddScoped<IAddressWriteRepository, AddressWriteRepository>();
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
@@ -35,6 +46,7 @@ namespace NakliyeUygulamasi.Persistence
 
             services.AddScoped<ILocationManager, LocationManager>();
             services.AddScoped<ITurkeyLocationService, TurkeyLocationService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }
