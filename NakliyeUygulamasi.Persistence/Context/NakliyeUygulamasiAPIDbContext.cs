@@ -37,6 +37,12 @@ namespace NakliyeUygulamasi.Persistence.Context
                 .HasForeignKey<Customer>(c => c.AppUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Customer>()
+                .HasMany(c => c.Addresses)
+                .WithOne(a => a.Customer)
+                .HasForeignKey(a => a.CustomerId);
+            
+
             builder.Entity<Transporter>()
                 .HasOne(t => t.AppUser)
                 .WithOne(au => au.Transporter)
@@ -86,7 +92,7 @@ namespace NakliyeUygulamasi.Persistence.Context
             builder.Entity<Order>()
                 .HasOne(o => o.PickupAddress)
                 .WithMany()
-                .HasForeignKey(o => o.PickupAddressId);
+                .HasForeignKey(o => o.PickupAddressId);         
 
             base.OnModelCreating(builder);
               

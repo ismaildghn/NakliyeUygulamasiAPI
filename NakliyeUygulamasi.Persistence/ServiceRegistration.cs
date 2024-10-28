@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NakliyeUygulamasi.Application.Abstractions.Services;
 using NakliyeUygulamasi.Application.Repositories;
 using NakliyeUygulamasi.Application.Repositories.Address;
-using NakliyeUygulamasi.Application.Services;
 using NakliyeUygulamasi.Domain.Entities.Identity;
 using NakliyeUygulamasi.Infrastructure.Services.TurkeyLocationService;
 using NakliyeUygulamasi.Persistence.Context;
@@ -47,6 +46,7 @@ namespace NakliyeUygulamasi.Persistence
             services.AddScoped<ILocationManager, LocationManager>();
             services.AddScoped<ITurkeyLocationService, TurkeyLocationService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAddressService, AddressService>();
         }
     }
 }

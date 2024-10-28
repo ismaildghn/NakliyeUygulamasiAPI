@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NakliyeUygulamasi.Application.Abstractions.Services;
 using NakliyeUygulamasi.Application.Repositories;
-using NakliyeUygulamasi.Application.Services;
 using NakliyeUygulamasi.Persistence.Context;
 using System;
 using System.Collections.Generic;

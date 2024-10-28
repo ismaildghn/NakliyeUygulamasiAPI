@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NakliyeUygulamasi.Application.Services
+namespace NakliyeUygulamasi.Application.Abstractions.Services
 {
     public interface ITurkeyLocationService
     {

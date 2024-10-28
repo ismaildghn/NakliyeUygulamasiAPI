@@ -1,5 +1,5 @@
-﻿using NakliyeUygulamasi.Application.DTOs;
-using NakliyeUygulamasi.Application.Services;
+﻿using NakliyeUygulamasi.Application.Abstractions.Services;
+using NakliyeUygulamasi.Application.DTOs;
 using NakliyeUygulamasi.Domain.Entities;
 using NakliyeUygulamasi.Persistence.Context;
 using Newtonsoft.Json;

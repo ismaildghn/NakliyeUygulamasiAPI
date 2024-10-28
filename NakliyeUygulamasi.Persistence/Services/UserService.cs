@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NakliyeUygulamasi.Application.Abstractions.Services;
 using NakliyeUygulamasi.Application.DTOs.User;
 using NakliyeUygulamasi.Application.Repositories;
 using NakliyeUygulamasi.Domain.Entities.Identity;
+using NakliyeUygulamasi.Persistence.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +13,19 @@ using System.Threading.Tasks;
 
 namespace NakliyeUygulamasi.Persistence.Services
 {
-    public class UserService: IUserService
+    public class UserService : IUserService
     {
+        private readonly NakliyeUygulamasiAPIDbContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly ICustomerWriteRepository _customerWriteRepository;
         private readonly ITransporterWriteRepository _transporterWriteRepository;
 
-        public UserService(UserManager<AppUser> userManager, ICustomerWriteRepository customerWriteRepository, ITransporterWriteRepository transporterWriteRepository)
+        public UserService(UserManager<AppUser> userManager, ICustomerWriteRepository customerWriteRepository, ITransporterWriteRepository transporterWriteRepository, NakliyeUygulamasiAPIDbContext context)
         {
             _userManager = userManager;
             _customerWriteRepository = customerWriteRepository;
             _transporterWriteRepository = transporterWriteRepository;
+            _context = context;
         }
 
 
@@ -53,12 +57,12 @@ namespace NakliyeUygulamasi.Persistence.Services
                     Id = Guid.NewGuid(),
                     AppUserId = user.Id,
                     LicenseNumber = model.LicenseNumber,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                 });
 
                 await _transporterWriteRepository.SaveAsync();
 
-             
+
                 return new CreateUserResponse
                 {
                     Succeeded = true,
@@ -77,36 +81,41 @@ namespace NakliyeUygulamasi.Persistence.Services
 
         public async Task<CreateUserResponse> CreateCustomer(CreateCustomer model)
         {
-            AppUser user = new()
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserName = model.Username,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                UserType = Domain.Enums.UserType.Customer
-            };
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                return new CreateUserResponse
-                {
-                    Succeeded = false,
-                    Message = string.Join("\n", result.Errors.Select(e => $"{e.Code} - {e.Description}"))
-                };
-            }
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                AppUser user = new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = model.Username,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    UserType = Domain.Enums.UserType.Customer
+                };
+
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+                if (!result.Succeeded)
+                {
+                    return new CreateUserResponse
+                    {
+                        Succeeded = false,
+                        Message = string.Join("\n", result.Errors.Select(e => $"{e.Code} - {e.Description}"))
+                    };
+                }
+
                 await _customerWriteRepository.AddAsync(new()
                 {
                     Id = Guid.NewGuid(),
                     AppUserId = user.Id,
                     NameSurname = model.NameSurname,
                     PersonelIdNumber = model.PersonelIdNumber,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                 });
 
                 await _customerWriteRepository.SaveAsync();
+
+                await transaction.CommitAsync();
 
                 return new CreateUserResponse
                 {
@@ -114,8 +123,9 @@ namespace NakliyeUygulamasi.Persistence.Services
                     Message = "Kullanıcı başarıyla oluşturuldu."
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return new CreateUserResponse
                 {
                     Succeeded = false,
