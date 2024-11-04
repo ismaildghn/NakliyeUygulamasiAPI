@@ -1,4 +1,5 @@
 ﻿using NakliyeUygulamasi.Application.DTOs.User;
+using NakliyeUygulamasi.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace NakliyeUygulamasi.Application.Abstractions.Services
     {
         Task<CreateUserResponse> CreateTransporter(CreateTransporter model);
         Task<CreateUserResponse> CreateCustomer(CreateCustomer model);
+        Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate);
     }
 }

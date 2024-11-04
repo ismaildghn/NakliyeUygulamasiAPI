@@ -133,5 +133,20 @@ namespace NakliyeUygulamasi.Persistence.Services
                 };
             }
         }
+        public async Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
+        {
+
+            if (user != null)
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                throw new Exception("Kullanıcı Adı Veya Şifre Hatalı");
+            }
+
+        }
     }
 }

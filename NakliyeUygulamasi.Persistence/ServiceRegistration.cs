@@ -47,6 +47,7 @@ namespace NakliyeUygulamasi.Persistence
             services.AddScoped<ITurkeyLocationService, TurkeyLocationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
     }
 }
