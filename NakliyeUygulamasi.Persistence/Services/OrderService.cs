@@ -2,6 +2,7 @@
 using NakliyeUygulamasi.Application.Abstractions.Services;
 using NakliyeUygulamasi.Application.DTOs.Order;
 using NakliyeUygulamasi.Application.Repositories;
+using NakliyeUygulamasi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,14 +46,31 @@ namespace NakliyeUygulamasi.Persistence.Services
             await _orderWriteRepository.SaveAsync();
         }
 
-        public Task RemoveOrderAsync(string OrderId)
+        public async Task RemoveOrderAsync(string OrderId)
         {
-            throw new NotImplementedException();
+            Order order = await _orderReadRepository.GetByIdAsync(OrderId);
+            if(order != null)
+            {
+                _orderWriteRepository.Remove(order);
+                await _orderWriteRepository.SaveAsync();
+            }
+
         }
 
-        public Task UpdateOrderAsync(UpdateOrder updateOrder)
+        public async Task UpdateOrderAsync(UpdateOrder updateOrder)
         {
-            throw new NotImplementedException();
+          Order order = await _orderReadRepository.GetByIdAsync(updateOrder.OrderId);
+            
+            if(order != null)
+            {
+                order.DeliveryAddressId = Guid.Parse(updateOrder.DeliveryAddresId);
+                order.PickupAddressId = Guid.Parse(updateOrder.PickupAddressId);
+                order.Description = updateOrder.Description;
+                order.ShippingDate = updateOrder.ShippingDate;
+                order.UpdatedDate = DateTime.UtcNow;
+                _orderWriteRepository.Update(order);
+                await _orderWriteRepository.SaveAsync();
+            }
         }
     }
 }

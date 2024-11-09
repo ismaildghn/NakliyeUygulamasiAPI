@@ -8,6 +8,7 @@ namespace NakliyeUygulamasi.Application.DTOs.Order
 {
     public class UpdateOrder
     {
+        public string OrderId { get; set; }
         public string DeliveryAddresId { get; set; }
         public string PickupAddressId { get; set; }
         public string Description { get; set; }
