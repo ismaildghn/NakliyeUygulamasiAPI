@@ -32,6 +32,8 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     UserType = table.Column<int>(type: "integer", nullable: false),
+                    RefreshToken = table.Column<string>(type: "text", nullable: true),
+                    RefreshTokenEndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -260,6 +262,7 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
                     ProvinceId = table.Column<int>(type: "integer", nullable: false),
                     DistrictId = table.Column<int>(type: "integer", nullable: false),
                     NeighbourhoodId = table.Column<int>(type: "integer", nullable: false),
@@ -271,6 +274,12 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Addresses_Districts_DistrictId",
                         column: x => x.DistrictId,
@@ -355,6 +364,11 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_CustomerId",
+                table: "Addresses",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_DistrictId",

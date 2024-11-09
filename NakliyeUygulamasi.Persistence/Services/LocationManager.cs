@@ -23,10 +23,7 @@ namespace NakliyeUygulamasi.Persistence.Services
 
         public async Task PopulateDatabaseAsync()
         {
-            // 1. İller (Provinces) için verileri al
             var provinces = await _locationService.GetProvincesAsync();
-
-            // 2. İlleri ekle (zaten mevcut olanları atla)
             foreach (var province in provinces)
             {
                 var exists = await _dbContext.Provinces.AnyAsync(p => p.ProvinceId == province.ProvinceId);
@@ -37,7 +34,6 @@ namespace NakliyeUygulamasi.Persistence.Services
             }
             await _dbContext.SaveChangesAsync();
 
-            // 3. Her bir il için ilçeleri (Districts) al ve ekle (zaten mevcut olanları atla)
             foreach (var province in provinces)
             {
                 var districts = await _locationService.GetDistrictsAsync(province.ProvinceId);
@@ -52,7 +48,6 @@ namespace NakliyeUygulamasi.Persistence.Services
                 }
                 await _dbContext.SaveChangesAsync();
 
-                // 4. Her bir ilçe için mahalleleri (Neighbourhoods) al ve ekle (zaten mevcut olanları atla)
                 foreach (var district in districts)
                 {
                     var neighborhoods = await _locationService.GetNeighborhoodsAsync(district.DistrictId);

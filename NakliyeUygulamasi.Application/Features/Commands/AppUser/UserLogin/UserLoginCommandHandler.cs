@@ -19,7 +19,7 @@ public UserLoginCommandHandler(IAuthService authService)
 
         public async Task<UserLoginCommandResponse> Handle(UserLoginCommandRequest request, CancellationToken cancellationToken)
         {
-           Token token = await _authService.LoginAsync(request.Username, request.Password, 900);
+           Token token = await _authService.LoginAsync(request.Username, request.Password, 90000);
 
             return new UserLoginCommandResponse
             {

@@ -10,11 +10,11 @@ namespace NakliyeUygulamasi.Application.Abstractions.Services
 {
     public interface IAddressService
     {
-        Task<List<Province>> GetProvinceList();
-        Task<List<District>> GetDistrictsForProvince(string provinceId);
-        Task<List<Neighbourhood>> GetNeighbourhoodForDistrict(string districtId);
-        Task CreateDeliveryAddress(CreateAddress createAddress);
-        Task CreatePickupAddress(CreateAddress createAddress);
+        Task<List<Province>> GetProvinceListAsync();
+        Task<List<District>> GetDistrictsForProvinceAsync(string provinceId);
+        Task<List<Neighbourhood>> GetNeighbourhoodForDistrictAsync(string districtId);
+        Task CreateDeliveryAddressAsync(CreateAddress createAddress);
+        Task CreatePickupAddressAsync(CreateAddress createAddress);
 
     }
 }

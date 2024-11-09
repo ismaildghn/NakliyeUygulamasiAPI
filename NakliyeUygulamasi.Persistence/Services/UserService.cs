@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NakliyeUygulamasi.Application.Abstractions.Services;
 using NakliyeUygulamasi.Application.DTOs.User;
 using NakliyeUygulamasi.Application.Repositories;
+using NakliyeUygulamasi.Domain.Entities;
 using NakliyeUygulamasi.Domain.Entities.Identity;
 using NakliyeUygulamasi.Persistence.Context;
 using System;
@@ -38,6 +39,7 @@ namespace NakliyeUygulamasi.Persistence.Services
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 UserType = Domain.Enums.UserType.Transporter,
+                
             };
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
@@ -80,42 +82,36 @@ namespace NakliyeUygulamasi.Persistence.Services
         }
 
         public async Task<CreateUserResponse> CreateCustomer(CreateCustomer model)
-        {
-            using var transaction = await _context.Database.BeginTransactionAsync();
+          {
+            AppUser user = new()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Email = model.Email,
+                UserName = model.Username,
+                PhoneNumber = model.PhoneNumber,
+                UserType = Domain.Enums.UserType.Customer
+            };
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return new CreateUserResponse
+                {
+                    Succeeded = false,
+                    Message = string.Join("\n", result.Errors.Select(e => $"{e.Code} - {e.Description}"))
+                };
+            }
             try
             {
-                AppUser user = new()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = model.Username,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    UserType = Domain.Enums.UserType.Customer
-                };
-
-                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
-                if (!result.Succeeded)
-                {
-                    return new CreateUserResponse
-                    {
-                        Succeeded = false,
-                        Message = string.Join("\n", result.Errors.Select(e => $"{e.Code} - {e.Description}"))
-                    };
-                }
-
                 await _customerWriteRepository.AddAsync(new()
                 {
-                    Id = Guid.NewGuid(),
                     AppUserId = user.Id,
+                    Id = Guid.NewGuid(),
                     NameSurname = model.NameSurname,
                     PersonelIdNumber = model.PersonelIdNumber,
                     CreatedDate = DateTime.UtcNow,
                 });
-
                 await _customerWriteRepository.SaveAsync();
-
-                await transaction.CommitAsync();
 
                 return new CreateUserResponse
                 {
@@ -123,13 +119,12 @@ namespace NakliyeUygulamasi.Persistence.Services
                     Message = "Kullanıcı başarıyla oluşturuldu."
                 };
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                await transaction.RollbackAsync();
                 return new CreateUserResponse
                 {
                     Succeeded = false,
-                    Message = $"Nakliyeci kaydı sırasında bir hata oluştu: {ex.Message}"
+                    Message = $"Müşteri kaydı sırasında bir hata oluştu: {ex.Message}"
                 };
             }
         }

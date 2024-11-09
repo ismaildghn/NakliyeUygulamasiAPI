@@ -20,14 +20,14 @@ namespace NakliyeUygulamasi.Persistence.Services
             _context = context;
         }
 
-        public async Task<List<Province>> GetProvinceList()
+        public async Task<List<Province>> GetProvinceListAsync()
         {
             DbSet<Province> table = _context.Set<Province>();
             var provinces =  table.AsQueryable().ToListAsync();
             return await provinces;
         }
 
-        public async Task<List<District>> GetDistrictsForProvince(string provinceId)
+        public async Task<List<District>> GetDistrictsForProvinceAsync(string provinceId)
         {
             DbSet<District> table = _context.Set<District>();
             var district = await table.Where(d => d.ProvinceId.ToString() == provinceId).ToListAsync();
@@ -35,14 +35,14 @@ namespace NakliyeUygulamasi.Persistence.Services
                 
         }
 
-        public async Task<List<Neighbourhood>> GetNeighbourhoodForDistrict(string districtId)
+        public async Task<List<Neighbourhood>> GetNeighbourhoodForDistrictAsync(string districtId)
         {
             DbSet<Neighbourhood> table = _context.Set<Neighbourhood>();
             var neighbourhood = await table.Where(n => n.DistrictId.ToString() == districtId).ToListAsync();
             return neighbourhood;
         }
 
-        public async Task CreateDeliveryAddress(CreateAddress createAddress)
+        public async Task CreateDeliveryAddressAsync(CreateAddress createAddress)
         {
             var address = new Address
             {
@@ -60,7 +60,7 @@ namespace NakliyeUygulamasi.Persistence.Services
             
         }
 
-        public async Task CreatePickupAddress(CreateAddress createAddress)
+        public async Task CreatePickupAddressAsync(CreateAddress createAddress)
         {
             var address = new Address
             {

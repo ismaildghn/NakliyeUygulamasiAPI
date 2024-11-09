@@ -20,7 +20,7 @@ namespace NakliyeUygulamasi.Application.Features.Commands.Address.CreateDelivery
 
         public async Task<CreateDeliveryAddressCommandResponse> Handle(CreateDeliveryAddressCommandRequest request, CancellationToken cancellationToken)
         {
-            await _addressService.CreateDeliveryAddress(new()
+            await _addressService.CreateDeliveryAddressAsync(new()
             {
                 CustomerId = request.CustomerId,
                 ProvinceId = request.ProvinceId,

@@ -48,6 +48,7 @@ namespace NakliyeUygulamasi.Persistence
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IOrderService, OrderService>();
         }
     }
 }

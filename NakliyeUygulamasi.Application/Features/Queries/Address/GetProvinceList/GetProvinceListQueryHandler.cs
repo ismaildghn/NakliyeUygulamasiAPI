@@ -19,7 +19,7 @@ namespace NakliyeUygulamasi.Application.Features.Queries.Address.GetProvinceList
 
         public async Task<GetProvinceListQueryResponse> Handle(GetProvinceListQueryRequest request, CancellationToken cancellationToken)
         {
-            var provinces = await _addressService.GetProvinceList();
+            var provinces = await _addressService.GetProvinceListAsync();
             return new GetProvinceListQueryResponse
             {
                 Provinces = provinces

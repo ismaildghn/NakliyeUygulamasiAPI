@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NakliyeUygulamasi.Persistence.Migrations
 {
     [DbContext(typeof(NakliyeUygulamasiAPIDbContext))]
-    [Migration("20241104110319_mig_4")]
-    partial class mig_4
+    [Migration("20241105124249_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

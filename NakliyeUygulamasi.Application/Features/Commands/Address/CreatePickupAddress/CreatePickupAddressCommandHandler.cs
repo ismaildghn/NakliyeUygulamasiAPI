@@ -19,7 +19,7 @@ namespace NakliyeUygulamasi.Application.Features.Commands.Address.CreatePickupAd
 
         public async Task<CreatePickupAddressCommandResponse> Handle(CreatePickupAddressCommandRequest request, CancellationToken cancellationToken)
         {
-            await _addressService.CreatePickupAddress(new()
+            await _addressService.CreatePickupAddressAsync(new()
             {
                 CustomerId = request.CustomerId,
                 ProvinceId = request.ProvinceId,

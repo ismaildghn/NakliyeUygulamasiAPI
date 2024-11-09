@@ -19,7 +19,7 @@ namespace NakliyeUygulamasi.Application.Features.Queries.Address.GetNeighbourhoo
 
         public async Task<GetNeighbourhoodForDistrictQueryResponse> Handle(GetNeighbourhoodForDistrictQueryRequest request, CancellationToken cancellationToken)
         {
-            var neighbourhood = await _addressService.GetNeighbourhoodForDistrict(request.DistrictId);
+            var neighbourhood = await _addressService.GetNeighbourhoodForDistrictAsync(request.DistrictId);
 
             return new GetNeighbourhoodForDistrictQueryResponse
             {
