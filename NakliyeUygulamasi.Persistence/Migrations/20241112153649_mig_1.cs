@@ -341,7 +341,7 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ListingId = table.Column<Guid>(type: "uuid", nullable: false),
                     TransporterId = table.Column<Guid>(type: "uuid", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
@@ -352,8 +352,8 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Offers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Offers_Orders_OrderId",
-                        column: x => x.OrderId,
+                        name: "FK_Offers_Orders_ListingId",
+                        column: x => x.ListingId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -439,9 +439,9 @@ namespace NakliyeUygulamasi.Persistence.Migrations
                 column: "DistrictId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Offers_OrderId",
+                name: "IX_Offers_ListingId",
                 table: "Offers",
-                column: "OrderId");
+                column: "ListingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offers_TransporterId",

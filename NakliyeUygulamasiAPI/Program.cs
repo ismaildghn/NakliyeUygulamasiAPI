@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NakliyeUygulamasi.Application;
+using NakliyeUygulamasi.Application.Abstractions.Services;
 using NakliyeUygulamasi.Infrastructure;
 using NakliyeUygulamasi.Infrastructure.Services.TurkeyLocationService;
 using NakliyeUygulamasi.Persistence;

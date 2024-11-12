@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NakliyeUygulamasi.Application.DTOs.Order
+namespace NakliyeUygulamasi.Application.DTOs.Listing
 {
-    public class UpdateOrder
+    public class CreateListing
     {
-        public string OrderId { get; set; }
-        public string DeliveryAddresId { get; set; }
-        public string PickupAddressId { get; set; }
+        public Guid DeliveryAddresId { get; set; }
+        public Guid PickupAddressId { get; set; }
         public string Description { get; set; }
         public DateTime ShippingDate { get; set; }
     }

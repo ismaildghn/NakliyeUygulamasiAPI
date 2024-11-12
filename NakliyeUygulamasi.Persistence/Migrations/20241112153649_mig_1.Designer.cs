@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NakliyeUygulamasi.Persistence.Context;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NakliyeUygulamasi.Persistence.Migrations
 {
     [DbContext(typeof(NakliyeUygulamasiAPIDbContext))]
-    partial class NakliyeUygulamasiAPIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241112153649_mig_1")]
+    partial class mig_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -361,7 +364,7 @@ namespace NakliyeUygulamasi.Persistence.Migrations
 
                     b.HasIndex("PickupAddressId");
 
-                    b.ToTable("Listings");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("NakliyeUygulamasi.Domain.Entities.Neighbourhood", b =>

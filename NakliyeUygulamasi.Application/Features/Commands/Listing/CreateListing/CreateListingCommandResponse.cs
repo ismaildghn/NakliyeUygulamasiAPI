@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NakliyeUygulamasi.Application.Features.Commands.Order.CreateOrder
+namespace NakliyeUygulamasi.Application.Features.Commands.Listing.CreateListing
 {
-    public class CreateOrderCommandResponse
+    public class CreateListingCommandResponse
     {
     }
 }

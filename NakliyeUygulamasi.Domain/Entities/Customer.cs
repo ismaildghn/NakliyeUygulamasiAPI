@@ -14,7 +14,7 @@ namespace NakliyeUygulamasi.Domain.Entities
         public string PersonelIdNumber { get; set; }
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Listing> Listings { get; set; }
         public ICollection<Address> Addresses { get; set; }
     }
 }

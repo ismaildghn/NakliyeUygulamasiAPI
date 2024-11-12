@@ -10,8 +10,8 @@ namespace NakliyeUygulamasi.Domain.Entities
 {
     public class Offer : BaseEntity
     {
-        public Guid OrderId { get; set; }
-        public Order Order { get; set; }
+        public Guid ListingId { get; set; }
+        public Listing Listing { get; set; }
         public Guid TransporterId { get; set; }
         public Transporter Transporter { get; set; }
         public decimal Price { get; set; }

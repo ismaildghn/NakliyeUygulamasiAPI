@@ -37,8 +37,8 @@ namespace NakliyeUygulamasi.Persistence
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
             services.AddScoped<IOfferReadRepository, OfferReadRepository>();
             services.AddScoped<IOfferWriteRepository, OfferWriteRepository>();
-            services.AddScoped<IOrderReadRepository, OrderReadRepository>();
-            services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
+            services.AddScoped<IListingReadRepository, ListingReadRepository>();
+            services.AddScoped<IListingWriteRepository, ListingWriteRepository>();
             services.AddScoped<ITransporterReadRepository, TransporterReadRepository>();
             services.AddScoped<ITransporterWriteRepository, TransporterWriteRepository>();
 
@@ -48,7 +48,7 @@ namespace NakliyeUygulamasi.Persistence
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IListingService, ListingService>();
         }
     }
 }

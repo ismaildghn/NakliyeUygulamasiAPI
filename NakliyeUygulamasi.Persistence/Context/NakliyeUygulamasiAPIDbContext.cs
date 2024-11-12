@@ -21,13 +21,13 @@ namespace NakliyeUygulamasi.Persistence.Context
         public DbSet<Neighbourhood> Neighbourhoods { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Offer> Offers { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<Listing> Listings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Customer>()
-                .HasMany(c => c.Orders)
+                .HasMany(c => c.Listings)
                 .WithOne(o => o.Customer)
                 .HasForeignKey(o => o.CustomerId);
 
@@ -79,17 +79,17 @@ namespace NakliyeUygulamasi.Persistence.Context
                 .WithMany()
                 .HasForeignKey(a => a.NeighbourhoodId);
 
-            builder.Entity<Order>()
+            builder.Entity<Listing>()
                 .HasMany(or => or.Offers)
-                .WithOne(of => of.Order)
-                .HasForeignKey(of => of.OrderId);
+                .WithOne(of => of.Listing)
+                .HasForeignKey(of => of.ListingId);
 
-            builder.Entity<Order>()
+            builder.Entity<Listing>()
                 .HasOne(o => o.DeliveryAddress)
                 .WithMany()
                 .HasForeignKey(o => o.DeliveryAddressId);
 
-            builder.Entity<Order>()
+            builder.Entity<Listing>()
                 .HasOne(o => o.PickupAddress)
                 .WithMany()
                 .HasForeignKey(o => o.PickupAddressId);         

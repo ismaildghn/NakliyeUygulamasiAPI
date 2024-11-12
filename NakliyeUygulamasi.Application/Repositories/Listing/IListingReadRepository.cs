@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NakliyeUygulamasi.Application.Repositories
 {
-    public interface IOrderReadRepository : IReadRepository<Order>
+    public interface IListingReadRepository : IReadRepository<Listing>
     {
     }
 }

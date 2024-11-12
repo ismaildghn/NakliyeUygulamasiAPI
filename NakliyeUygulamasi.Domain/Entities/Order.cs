@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NakliyeUygulamasi.Domain.Entities
 {
-    public class Order : BaseEntity
+    public class Listing : BaseEntity
     {
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }

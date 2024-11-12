@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace NakliyeUygulamasi.Persistence.Repositories
 {
-    public class OrderWriteRepository : WriteRepository<Order>, IOrderWriteRepository
+    public class ListingWriteRepository : WriteRepository<Listing>, IListingWriteRepository
     {
-        public OrderWriteRepository(NakliyeUygulamasiAPIDbContext context) : base(context)
+        public ListingWriteRepository(NakliyeUygulamasiAPIDbContext context) : base(context)
         {
         }
     }

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace NakliyeUygulamasi.Persistence.Repositories
 {
-    public class OrderReadRepository : ReadRepository<Order>, IOrderReadRepository
+    public class ListingReadRepository : ReadRepository<Listing>, IListingReadRepository
     {
-        public OrderReadRepository(NakliyeUygulamasiAPIDbContext context) : base(context)
+        public ListingReadRepository(NakliyeUygulamasiAPIDbContext context) : base(context)
         {
         }
     }
