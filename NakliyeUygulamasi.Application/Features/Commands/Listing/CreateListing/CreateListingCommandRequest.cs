@@ -9,6 +9,7 @@ namespace NakliyeUygulamasi.Application.Features.Commands.Listing.CreateListing
 {
     public class CreateListingCommandRequest : IRequest<CreateListingCommandResponse>
     {
+        public string Header { get; set; }
         public Guid DeliveryAddresId { get; set; }
         public Guid PickupAddressId { get; set; }
         public string Description { get; set; }

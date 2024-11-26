@@ -15,6 +15,7 @@ namespace NakliyeUygulamasi.Domain.Entities
         public Address DeliveryAddress{ get; set; }
         public Guid PickupAddressId { get; set; }
         public Address PickupAddress{ get; set; }
+        public string Header { get; set; }
         public string Description { get; set; }
         public ICollection<Offer> Offers { get; set; }
         public DateTime ShippingDate { get; set; }

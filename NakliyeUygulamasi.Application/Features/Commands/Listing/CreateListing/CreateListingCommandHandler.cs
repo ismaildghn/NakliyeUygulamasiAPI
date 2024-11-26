@@ -21,6 +21,7 @@ namespace NakliyeUygulamasi.Application.Features.Commands.Listing.CreateListing
         {
             await _ListingService.CreateListingAsync(new()
             {
+                Header = request.Header,
                 DeliveryAddresId = request.DeliveryAddresId,
                 Description = request.Description,
                 PickupAddressId = request.PickupAddressId,
