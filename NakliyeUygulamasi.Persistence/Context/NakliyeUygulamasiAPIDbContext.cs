@@ -21,13 +21,13 @@ namespace NakliyeUygulamasi.Persistence.Context
         public DbSet<Neighbourhood> Neighbourhoods { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Offer> Offers { get; set; }
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<Listing> Listings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Customer>()
-                .HasMany(c => c.Orders)
+                .HasMany(c => c.Listings)
                 .WithOne(o => o.Customer)
                 .HasForeignKey(o => o.CustomerId);
 
@@ -36,6 +36,12 @@ namespace NakliyeUygulamasi.Persistence.Context
                 .WithOne(au => au.Customer)
                 .HasForeignKey<Customer>(c => c.AppUserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Customer>()
+                .HasMany(c => c.Addresses)
+                .WithOne(a => a.Customer)
+                .HasForeignKey(a => a.CustomerId);
+            
 
             builder.Entity<Transporter>()
                 .HasOne(t => t.AppUser)
@@ -48,6 +54,47 @@ namespace NakliyeUygulamasi.Persistence.Context
                 .WithOne(o => o.Transporter)
                 .HasForeignKey(o => o.TransporterId);
 
+            builder.Entity<District>()
+                .HasMany(d => d.Neighbourhoods)
+                .WithOne(n => n.District)
+                .HasForeignKey(n => n.DistrictId);
+
+            builder.Entity<Province>()
+                .HasMany(p => p.Districts)
+                .WithOne(d => d.Province)
+                .HasForeignKey(d => d.ProvinceId);
+
+            builder.Entity<Address>()
+                .HasOne(a => a.Province)
+                .WithMany()
+                .HasForeignKey(a => a.ProvinceId);
+
+            builder.Entity<Address>()
+                .HasOne(a => a.District)
+                .WithMany()
+                .HasForeignKey(a => a.DistrictId);
+
+            builder.Entity<Address>()
+                .HasOne(a => a.Neighbourhood)
+                .WithMany()
+                .HasForeignKey(a => a.NeighbourhoodId);
+
+            builder.Entity<Listing>()
+                .HasMany(or => or.Offers)
+                .WithOne(of => of.Listing)
+                .HasForeignKey(of => of.ListingId);
+
+            builder.Entity<Listing>()
+                .HasOne(o => o.DeliveryAddress)
+                .WithMany()
+                .HasForeignKey(o => o.DeliveryAddressId);
+
+            builder.Entity<Listing>()
+                .HasOne(o => o.PickupAddress)
+                .WithMany()
+                .HasForeignKey(o => o.PickupAddressId);         
+
+            base.OnModelCreating(builder);
               
         }
     }

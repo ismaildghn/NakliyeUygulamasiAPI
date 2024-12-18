@@ -13,5 +13,7 @@ namespace NakliyeUygulamasi.Domain.Entities.Identity
         public UserType UserType { get; set; }
         public Customer Customer { get; set; }
         public Transporter Transporter { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenEndDate { get; set; }
     }
 }

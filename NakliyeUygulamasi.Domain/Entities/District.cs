@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace NakliyeUygulamasi.Domain.Entities
 {
-    public class District : BaseEntity
+    public class District
     {
+        public int DistrictId { get; set; }
         public string DistrictName { get; set; }
-        public string ProvinceId { get; set; }
+        public int ProvinceId { get; set; }
         public Province Province { get; set; }
         public ICollection<Neighbourhood> Neighbourhoods { get; set; }
     }
